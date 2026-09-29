@@ -52,21 +52,29 @@
     }
 
     try {
+      // FormData = petición "simple": no necesita permiso previo (preflight) y falla menos.
+      const datos = new FormData();
+      datos.append("_subject", "PRE-REGISTRO — DOKAN SYSTEM");
+      datos.append("_captcha", "false");   // sin pantalla de verificación
+      datos.append("_template", "box");
+      datos.append("message", construirMensaje(lista));
+
       const response = await fetch(ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          _subject: "PRE-REGISTRO — DOKAN SYSTEM",
-          _captcha: "false",   // sin pantalla de verificación
-          _honey: "",
-          message: construirMensaje(lista),
-        }),
+        headers: { "Accept": "application/json" },
+        body: datos,
       });
 
-      const data = await response.json().catch(() => ({}));
+      const texto = await response.text();
+      let data = {};
+      try { data = JSON.parse(texto); } catch (e) { /* respuesta no JSON */ }
+      console.log("[DOKAN] Respuesta FormSubmit:", response.status, texto.slice(0, 300));
+
       // FormSubmit devuelve success como texto ("true"/"false"), por eso se compara como String.
       if (!response.ok || String(data.success) === "false") {
-        throw new Error(data.message || "El servicio de correo rechazó el envío.");
+        const err = new Error(data.message || ("Respuesta " + response.status));
+        err.tipo = "servicio";
+        throw err;
       }
 
       D.store.marcarEnviado(lista.map((c) => c.id));
@@ -75,9 +83,11 @@
     } catch (error) {
       console.error("[DOKAN] Error enviando correo:", error);
       const msg = String(error && error.message || "");
-      let aviso = "No se pudo enviar. Intenta de nuevo.";
-      if (/activat/i.test(msg)) aviso = "Falta activar el correo destino. Revisa la bandeja de " + D.CONFIG.email.destino + ".";
-      else if (window.location.protocol === "file:") aviso = "Abre la página con Live Server o GitHub Pages para poder enviar.";
+      let aviso;
+      if (window.location.protocol === "file:") aviso = "Abre la página con Live Server o GitHub Pages para poder enviar.";
+      else if (/activat/i.test(msg)) aviso = "Falta activar el correo destino. Revisa la bandeja (y spam) de " + D.CONFIG.email.destino + ".";
+      else if (error.tipo === "servicio") aviso = "El servicio de correo respondió: " + msg.slice(0, 140);
+      else aviso = "No se pudo conectar con el servicio de correo. Revisa tu internet o desactiva el bloqueador de anuncios en esta página.";
       D.dom.toast(aviso, "error");
       return { ok: false, error };
     }
