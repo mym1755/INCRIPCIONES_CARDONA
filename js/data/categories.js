@@ -16,12 +16,15 @@
 (function (D) {
   D.CINTAS = ["Blanca", "Amarilla", "Naranja", "Morada", "Azul", "Verde", "Café", "Roja", "Negra"];
 
-  // ⚠ SUPUESTO A CONFIRMAR: el Excel clasifica por GRADO (Principiante / Intermedio /
-  // Avanzado / Negras) y no por color. Este mapa decide qué cintas caen en cada grado.
+  // Qué cintas entran en cada grado (las categorías se filtran con esto).
+  //   Principiante: Blanca, Amarilla, Naranja
+  //   Intermedio:   Morada, Azul
+  //   Avanzado:     Verde, Café, Roja
+  //   Cinta Negra:  Negra
   D.GRADOS = [
-    { nombre: "Principiante", cintas: ["Blanca", "Amarilla"] },
-    { nombre: "Intermedio",   cintas: ["Naranja", "Verde"] },
-    { nombre: "Avanzado",     cintas: ["Azul", "Morada", "Café", "Roja"] },
+    { nombre: "Principiante", cintas: ["Blanca", "Amarilla", "Naranja"] },
+    { nombre: "Intermedio",   cintas: ["Morada", "Azul"] },
+    { nombre: "Avanzado",     cintas: ["Verde", "Café", "Roja"] },
     { nombre: "Cinta Negra",  cintas: ["Negra"] },
   ];
 
