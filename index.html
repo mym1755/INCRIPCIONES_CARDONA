@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOKAN SYSTEM — Inscripción Torneo de Karate Dragones Cardona</title>
+<meta name="description" content="Sistema de inscripción del Torneo de Karate Dragones Cardona, 11 de octubre de 2026, Colegio Mixto Belén.">
+<link rel="icon" href="assets/LOGIN_LOGO.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body data-page="index">
+<noscript><p style="padding:24px;text-align:center">Esta página necesita JavaScript activado para funcionar.</p></noscript>
+
+<div id="app-header"></div>
+
+<main>
+  <div id="app-hero"></div>
+  <div id="app-info"></div>
+
+  <section class="section" id="precios"><div class="wrap" id="app-precios"></div></section>
+
+  <section class="section alt" id="categorias"><div class="wrap" id="app-categorias"></div></section>
+
+  <section class="section" id="inscripcion">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Registro de competidores</h2>
+        <p>Registra todos los competidores primero, asígnales una o varias categorías y revisa el pre-registro y envíalo con un clic.</p>
+      </div>
+      <div id="app-flow"></div>
+      <div class="workflow-grid" id="asignacion">
+        <div class="workflow-block" id="bloque-registro"><div id="app-form"></div></div>
+        <div class="workflow-block" id="bloque-lista"><div id="app-list"></div></div>
+        <div class="workflow-block" id="bloque-categorias"><div id="app-selector"></div></div>
+        <div class="workflow-block" id="bloque-preregistro"><div id="app-review"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="contacto"><div class="wrap" id="app-contacto"></div></section>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="js/config.js"></script>
+<script src="js/data/categories.js"></script>
+<script src="js/types/competitor.js"></script>
+<script src="js/utils/dom.js"></script>
+<script src="js/utils/storage.js"></script>
+<script src="js/utils/categoryFilter.js"></script>
+<script src="js/utils/validation.js"></script>
+<script src="js/utils/whatsapp.js"></script>
+<script src="js/utils/email.js"></script>
+<script src="js/store.js"></script>
+<script src="js/components/Header.js"></script>
+<script src="js/components/Hero.js"></script>
+<script src="js/components/EventInfo.js"></script>
+<script src="js/components/CategoryCard.js"></script>
+<script src="js/components/CategoriesSection.js"></script>
+<script src="js/components/FlowSteps.js"></script>
+<script src="js/components/RegistrationForm.js"></script>
+<script src="js/components/CompetitorList.js"></script>
+<script src="js/components/CategorySelector.js"></script>
+<script src="js/components/WhatsAppButton.js"></script>
+<script src="js/components/EmailButton.js"></script>
+<script src="js/components/ReviewPanel.js"></script>
+<script src="js/components/Contact.js"></script>
+<script src="js/components/Footer.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

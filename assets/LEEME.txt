@@ -1,0 +1,7 @@
+COLOCA AQUÍ LOS DOS LOGOS, con estos nombres EXACTOS (respeta mayúsculas y minúsculas):
+
+  LOGIN_LOGO.png   -> logotipo de DOKAN SYSTEM (header, footer y favicon)
+  logo.jpg         -> logo del torneo (portada)
+
+GitHub Pages distingue mayúsculas: "Logo.jpg" o "login_logo.png" NO se van a ver.
+Cuando subas los logos puedes borrar este archivo.
