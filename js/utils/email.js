@@ -1,9 +1,9 @@
 /* =========================================================
    email.js — envío del pre-registro completo por correo
-   FormSubmit mantiene el proyecto compatible con GitHub Pages.
+   Web3Forms mantiene el proyecto compatible con GitHub Pages.
    ========================================================= */
 (function (D) {
-  const ENDPOINT = "https://formsubmit.co/ajax/" + encodeURIComponent(D.CONFIG.email.destino);
+  const ENDPOINT = "https://api.web3forms.com/submit";
 
   const fechaLegible = (iso) => (iso || "").split("-").reverse().join("/");
   const num = (n, dec) => Number(n).toFixed(dec);
@@ -51,27 +51,30 @@
       return { ok: false, problemas };
     }
 
-    try {
-      // FormData = petición "simple": no necesita permiso previo (preflight) y falla menos.
-      const datos = new FormData();
-      datos.append("_subject", "PRE-REGISTRO — DOKAN SYSTEM");
-      datos.append("_captcha", "false");   // sin pantalla de verificación
-      datos.append("_template", "box");
-      datos.append("message", construirMensaje(lista));
+    const clave = D.CONFIG.email.accessKey;
+    if (!clave || /PEGA_AQUI/.test(clave)) {
+      D.dom.toast("Falta configurar la clave de envío (accessKey en js/config.js).", "error");
+      return { ok: false };
+    }
 
+    try {
       const response = await fetch(ENDPOINT, {
         method: "POST",
-        headers: { "Accept": "application/json" },
-        body: datos,
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          access_key: clave,
+          subject: "PRE-REGISTRO — DOKAN SYSTEM",
+          from_name: "DOKAN SYSTEM",
+          message: construirMensaje(lista),
+        }),
       });
 
       const texto = await response.text();
       let data = {};
       try { data = JSON.parse(texto); } catch (e) { /* respuesta no JSON */ }
-      console.log("[DOKAN] Respuesta FormSubmit:", response.status, texto.slice(0, 300));
+      console.log("[DOKAN] Respuesta del servicio de correo:", response.status, texto.slice(0, 300));
 
-      // FormSubmit devuelve success como texto ("true"/"false"), por eso se compara como String.
-      if (!response.ok || String(data.success) === "false") {
+      if (!response.ok || !data.success) {
         const err = new Error(data.message || ("Respuesta " + response.status));
         err.tipo = "servicio";
         throw err;
@@ -85,7 +88,6 @@
       const msg = String(error && error.message || "");
       let aviso;
       if (window.location.protocol === "file:") aviso = "Abre la página con Live Server o GitHub Pages para poder enviar.";
-      else if (/activat/i.test(msg)) aviso = "Falta activar el correo destino. Revisa la bandeja (y spam) de " + D.CONFIG.email.destino + ".";
       else if (error.tipo === "servicio") aviso = "El servicio de correo respondió: " + msg.slice(0, 140);
       else aviso = "No se pudo conectar con el servicio de correo. Revisa tu internet o desactiva el bloqueador de anuncios en esta página.";
       D.dom.toast(aviso, "error");
