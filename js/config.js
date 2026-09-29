@@ -32,9 +32,12 @@
     },
 
     // Destino del pre-registro completo.
-    // El envío se realiza mediante FormSubmit, compatible con GitHub Pages.
+    // El envío se realiza mediante Web3Forms, compatible con GitHub Pages.
+    // accessKey: la clave que llega al correo al crearla en https://web3forms.com
+    // (no es secreta; el correo que se use al crearla es el que recibe los pre-registros).
     email: {
       destino: "eriquemym1755@gmail.com",
+      accessKey: "232a47a0-e675-4a03-9f94-defe484d70ad",
     },
 
     // Rutas EXACTAS (respeta mayúsculas/minúsculas: GitHub Pages distingue).
